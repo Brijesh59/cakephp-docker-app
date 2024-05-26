@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    platform: linux/amd64
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cakephp
+      MYSQL_USER: cakephp
+      MYSQL_PASSWORD: cakephp
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
